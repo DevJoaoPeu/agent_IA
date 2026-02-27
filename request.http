@@ -1,2 +1,18 @@
 GET http://localhost:3000/
 Content-Type: application/json
+
+###
+POST http://localhost:3000/atendimento/orchestrator
+Content-Type: application/json
+
+{
+  "message": "quero a segunda via do boleto de fevereiro"
+}
+
+###
+POST http://localhost:3000/atendimento/orchestrator
+Content-Type: application/json
+
+{
+  "message": "quais medicos de cardiologia voces atendem?"
+}
