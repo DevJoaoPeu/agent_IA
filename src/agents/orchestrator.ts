@@ -16,7 +16,7 @@ const triageResult = (reason: string): ClinicOrchestratorResult => ({
   }
 });
 
-export const orchestrateClinicMessage = (message: string): ClinicOrchestratorResult => {
+export const orchestrateClinicMessage = async (message: string): Promise<ClinicOrchestratorResult> => {
   const normalizedMessage = message.trim();
 
   const scoredAgents = subAgents
@@ -37,7 +37,7 @@ export const orchestrateClinicMessage = (message: string): ClinicOrchestratorRes
     return triageResult("Mensagem com intencoes concorrentes.");
   }
 
-  const response = bestCandidate.agent.handle(normalizedMessage);
+  const response = await bestCandidate.agent.handle(normalizedMessage);
   const totalScore = scoredAgents.reduce((accumulator, item) => accumulator + item.score, 0);
   const confidence = totalScore > 0 ? Number((bestCandidate.score / totalScore).toFixed(2)) : 0;
 

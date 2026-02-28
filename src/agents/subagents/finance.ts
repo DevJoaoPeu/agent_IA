@@ -53,7 +53,7 @@ export const financeAgent: ClinicSubAgent = {
 
     return score;
   },
-  handle(message: string) {
+  async handle(message: string) {
     const normalizedMessage = normalizeText(message);
 
     if (includesAny(normalizedMessage, INVOICE_KEYWORDS)) {

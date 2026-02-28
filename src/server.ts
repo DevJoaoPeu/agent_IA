@@ -29,7 +29,7 @@ app.post<{ Body: OrchestrationBody }>("/atendimento/orchestrator", async (reques
     });
   }
 
-  const orchestrationResult = orchestrateClinicMessage(parsedBody.data.message);
+  const orchestrationResult = await orchestrateClinicMessage(parsedBody.data.message);
   return reply.send(orchestrationResult);
 });
 

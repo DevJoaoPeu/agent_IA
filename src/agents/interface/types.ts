@@ -20,5 +20,5 @@ export interface ClinicOrchestratorResult {
 export interface ClinicSubAgent {
   name: ClinicSubAgentName;
   canHandle(message: string): number;
-  handle(message: string): ClinicAgentResponse;
+  handle(message: string): Promise<ClinicAgentResponse>;
 }
