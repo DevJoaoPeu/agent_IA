@@ -1,4 +1,6 @@
-import { Pool } from "pg";
+import "dotenv/config";
+import "reflect-metadata";
+import { DataSource } from "typeorm";
 import { z } from "zod";
 
 const postgresEnvSchema = z.object({
@@ -11,24 +13,32 @@ const postgresEnvSchema = z.object({
 
 const postgresEnv = postgresEnvSchema.parse(process.env);
 
-const postgres = new Pool({
+const postgres = new DataSource({
+    type: "postgres",
     host: postgresEnv.POSTGRES_HOST,
     port: postgresEnv.POSTGRES_PORT,
-    user: postgresEnv.POSTGRES_USER,
+    username: postgresEnv.POSTGRES_USER,
     password: postgresEnv.POSTGRES_PASSWORD,
     database: postgresEnv.POSTGRES_DB,
+    entities: ['src/entities/*.entity.ts'],
+    synchronize: false,
+    logging: false,
 });
 
 export const connectPostgres = async () => {
-    await postgres.connect();
-};
-
-export const disconnectPostgres = async () => {
-    if (postgres.totalCount === 0) {
+    if (postgres.isInitialized) {
         return;
     }
 
-    await postgres.end();
+    await postgres.initialize();
+};
+
+export const disconnectPostgres = async () => {
+    if (!postgres.isInitialized) {
+        return;
+    }
+
+    await postgres.destroy();
 };
 
 export default postgres;

@@ -23,6 +23,8 @@
     "fastify": "^5.7.4",
     "ioredis": "^5.10.0",
     "pg": "^8.19.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28",
     "zod": "^4.3.6"
   }
 }

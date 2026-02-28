@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import postgres, { disconnectPostgres } from "../postgres";
+import postgres, { connectPostgres, disconnectPostgres } from "../postgres";
 
 const migrationsPath = resolve(__dirname, "migrations.sql");
 
@@ -12,19 +12,23 @@ const runMigrations = async (): Promise<void> => {
     throw new Error("Arquivo de migration vazio.");
   }
 
-  const client = await postgres.connect();
+  await connectPostgres();
+  const queryRunner = postgres.createQueryRunner();
 
   try {
-    await client.query("BEGIN");
-    await client.query(migrationSql);
-    await client.query("COMMIT");
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    await queryRunner.query(migrationSql);
+    await queryRunner.commitTransaction();
     console.log("Migrations executadas com sucesso.");
   } catch (error: unknown) {
-    await client.query("ROLLBACK");
+    if (queryRunner.isTransactionActive) {
+      await queryRunner.rollbackTransaction();
+    }
     console.error("Erro ao executar migrations:", error);
     throw error;
   } finally {
-    client.release();
+    await queryRunner.release();
     await disconnectPostgres();
   }
 };
