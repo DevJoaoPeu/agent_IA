@@ -1,5 +1,5 @@
-import { includesAny, normalizeText } from "../text";
-import { ClinicSubAgent } from "../types";
+import { includesAny, normalizeText } from "../utils/text";
+import { ClinicSubAgent } from "../interface/types";
 
 const FINANCE_KEYWORDS = [
   "financeiro",

@@ -1,6 +1,6 @@
 import { financeAgent } from "./subagents/finance";
 import { medicalSpecialtiesAgent } from "./subagents/medicalSpecialties";
-import { ClinicOrchestratorResult, ClinicSubAgent } from "./types";
+import { ClinicOrchestratorResult, ClinicSubAgent } from "./interface/types";
 
 const subAgents: ClinicSubAgent[] = [financeAgent, medicalSpecialtiesAgent];
 
