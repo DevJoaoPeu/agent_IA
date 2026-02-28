@@ -1,4 +1,4 @@
-import { includesAny, normalizeText } from "../utils/text";
+import { includesAny, normalizeDoctorName, normalizeText } from "../utils/text";
 import { ClinicSubAgent } from "../interface/types";
 import { doctorRepository } from "../../repositorios/doctor.repositoriy";
 
@@ -38,12 +38,6 @@ const specialtyAliases: Array<{ keyword: string; specialty: string }> = [
   { keyword: "clinica geral", specialty: "clinica geral" },
   { keyword: "generalista", specialty: "clinica geral" }
 ];
-
-const normalizeDoctorName = (name: string): string =>
-  normalizeText(name)
-    .replace(/\b(dr|dra|doutor|doutora)\.?\s+/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
 
 const buildDoctorProfiles = async (): Promise<DoctorProfile[]> => {
   const doctors = await doctorRepository.findByAllDoctors();
