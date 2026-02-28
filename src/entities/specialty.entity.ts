@@ -2,15 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { SpecialtyEntity } from "./specialty.entity";
+import { DoctorEntity } from "./doctor.entity";
 
-@Entity("doctors")
-export class DoctorEntity {
+@Entity("specialties")
+export class SpecialtyEntity {
   @PrimaryGeneratedColumn({ type: "bigint" })
   id!: string;
 
@@ -26,17 +25,6 @@ export class DoctorEntity {
   @Column({ name: "is_active", type: "boolean", default: true })
   isActive!: boolean;
 
-  @ManyToMany(() => SpecialtyEntity, (specialty) => specialty.doctors)
-  @JoinTable({
-    name: "doctors_x_specialties",
-    joinColumn: {
-      name: "fk_doctor",
-      referencedColumnName: "id"
-    },
-    inverseJoinColumn: {
-      name: "fk_specialty",
-      referencedColumnName: "id"
-    }
-  })
-  specialties!: SpecialtyEntity[];
+  @ManyToMany(() => DoctorEntity, (doctor) => doctor.specialties)
+  doctors!: DoctorEntity[];
 }

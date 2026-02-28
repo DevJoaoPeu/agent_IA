@@ -2,6 +2,8 @@ import "dotenv/config";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { z } from "zod";
+import { DoctorEntity } from "../entities/doctor.entity";
+import { SpecialtyEntity } from "../entities/specialty.entity";
 
 const postgresEnvSchema = z.object({
     POSTGRES_HOST: z.string().min(1),
@@ -20,7 +22,7 @@ const postgres = new DataSource({
     username: postgresEnv.POSTGRES_USER,
     password: postgresEnv.POSTGRES_PASSWORD,
     database: postgresEnv.POSTGRES_DB,
-    entities: ['src/entities/*.entity.ts'],
+    entities: [DoctorEntity, SpecialtyEntity],
     synchronize: false,
     logging: false,
 });

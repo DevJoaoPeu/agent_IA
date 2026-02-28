@@ -16,9 +16,9 @@ export class DoctorRepository {
         return postgres
             .getRepository(DoctorEntity)
             .createQueryBuilder("doctor")
-            .innerJoin("doctors_x_specialties", "dxs", "dxs.fk_doctor = doctor.id")
+            .innerJoin("doctor.specialties", "specialty")
             .where("doctor.is_active = :isActive", { isActive: true })
-            .andWhere("dxs.fk_specialty = :specialty", { specialty })
+            .andWhere("specialty.id = :specialtyId", { specialtyId: specialty })
             .orderBy("doctor.name", "ASC")
             .getMany();
     }
